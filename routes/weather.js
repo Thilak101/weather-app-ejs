@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const axios = require('axios')
 
 
 router.get('/', (req, res) => {
@@ -12,8 +13,10 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
     const city = req.body.city
     try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}&units=metric`)
-        const data = await response.json()
+        // const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}&units=metric`)
+        // const data = await response.json()
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}&units=metric`)
+        const data = await response.data
         res.render('weather', {
             weatherDescription: data.weather[0].description,
             temp: data.main.temp,
